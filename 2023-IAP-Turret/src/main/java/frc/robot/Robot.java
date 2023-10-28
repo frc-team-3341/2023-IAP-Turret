@@ -2,20 +2,53 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.vision.VisionRunner;
+import edu.wpi.first.vision.VisionThread;
 
 public class Robot extends TimedRobot {
+
+  private static final int IMG_WIDTH = 320;
+  private static final int IMG_HEIGHT = 240;
+
+  private VisionThread visionThread;
+  private double centerX = 0.0;
+  private DifferentialDrive drive;
+  private PWMSparkMax left;
+  private PWMSparkMax right;
+
+  private final Object imgLock = new Object();
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
+      UsbCamera camera = CameraServer.startAutomaticCapture();
+      camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+  
+      visionThread = new VisionThread(camera, new ConeGripPipeline(), pipeline -> {
+          if (!pipeline.filterContoursOutput().isEmpty()) {
+              Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+              synchronized (imgLock) {
+                  centerX = r.x + (r.width / 2);
+              }
+          }
+      });
+      visionThread.start();
+  
+      left = new PWMSparkMax(0);
+      right = new PWMSparkMax(1);
+      drive = new DifferentialDrive(left, right);
   }
 
   @Override
