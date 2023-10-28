@@ -8,6 +8,7 @@ import org.opencv.imgproc.*;
 
 import edu.wpi.first.vision.VisionPipeline;
 
+
 /**
 * ConeGripPipeline class.
 *
