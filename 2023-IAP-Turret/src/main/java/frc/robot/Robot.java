@@ -40,9 +40,10 @@ public class Robot extends TimedRobot {
       UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
   
+      // Creates a new vision thread to run a given Computer Vision pipeline
       visionThread = new VisionThread(camera, new ConeGripPipeline(), pipeline -> {
-          if (!pipeline.filterContoursOutput().isEmpty()) {
-              Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+          if (!pipeline.findContoursOutput().isEmpty()) {
+              Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
               synchronized (imgLock) {
                   centerX = r.x + (r.width / 2);
               }
