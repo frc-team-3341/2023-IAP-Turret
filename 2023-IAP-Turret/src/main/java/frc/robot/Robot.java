@@ -21,6 +21,7 @@ import edu.wpi.first.vision.VisionThread;
 
 public class Robot extends TimedRobot {
 
+  // **TO BE DONE**: change these values according to our robot
   private static final int IMG_WIDTH = 320;
   private static final int IMG_HEIGHT = 240;
 
@@ -37,23 +38,25 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-      UsbCamera camera = CameraServer.startAutomaticCapture();
-      camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
   
-      // Creates a new vision thread to run a given Computer Vision pipeline
-      visionThread = new VisionThread(camera, new ConeGripPipeline(), pipeline -> {
-          if (!pipeline.findContoursOutput().isEmpty()) {
-              Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
-              synchronized (imgLock) {
-                  centerX = r.x + (r.width / 2);
-              }
-          }
-      });
-      visionThread.start();
+    // Creates a new vision thread to run a given Computer Vision pipeline
+    visionThread = new VisionThread(camera, new ConeGripPipeline(), pipeline -> {
+      if (!pipeline.findContoursOutput().isEmpty()) {
+        // Creates a rectangle around the target and gets the x coordinate of the center of rectangle
+        Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
+        // The synchronized block gets a snapshot of the last reading of centerX in the vision thread
+        synchronized (imgLock) {
+          centerX = r.x + (r.width / 2);
+        }
+      }
+    });
+    visionThread.start();
   
-      left = new PWMSparkMax(0);
-      right = new PWMSparkMax(1);
-      drive = new DifferentialDrive(left, right);
+    left = new PWMSparkMax(0);
+    right = new PWMSparkMax(1);
+    drive = new DifferentialDrive(left, right);
   }
 
   @Override
