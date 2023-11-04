@@ -1,23 +1,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Turret;
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
-import java.util.List;
 
 
 public class PhotonDetection extends CommandBase {
     public Turret turret;
-    public PhotonCamera photonCamera = new PhotonCamera("Ayaans_iPhone_Camera");
-    public boolean containsTargets;
-    public PhotonPipelineResult result;
-    public PhotonDetection(Turret turret) {
+    public PhotonVision photonVision;
+    public int turretSpeed = 1;
+
+    public PhotonDetection(Turret turret, PhotonVision photonVision) {
         this.turret = turret;
-        // each subsystem used by the command must be passed into the
-        // addRequirements() method (which takes a vararg of Subsystem)
+        this.photonVision = photonVision;
         addRequirements();
     }
 
@@ -28,27 +23,19 @@ public class PhotonDetection extends CommandBase {
 
     @Override
     public void execute() {
-        turret.RotateTurret(0.7);
-        result = photonCamera.getLatestResult();
-        containsTargets = result.hasTargets();
-
-        if (containsTargets){
-            List<PhotonTrackedTarget> targets = result.getTargets();
-            PhotonTrackedTarget bestTarget = result.getBestTarget();
-            photonCamera.takeInputSnapshot();
-            photonCamera.takeOutputSnapshot();
-            turret.isDetected = "Yes";
-        }
-
+       if (turret.getLimitValue()){
+           turretSpeed *= -1;
+       }
+       turret.rotateTurret(turretSpeed * 0.7);
     }
 
     @Override
     public boolean isFinished() {
-        return containsTargets;
+        return photonVision.targetExists();
     }
 
     @Override
     public void end(boolean interrupted) {
-        turret.RotateTurret(0);
+        turret.rotateTurret(0.0);
     }
 }
