@@ -18,8 +18,8 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain() {
     // Creates talon objects
-    leftDriveTalon = new WPI_TalonSRX(Constants.DriveTrainPorts.LeftDriveTalonPort);
-    rightDriveTalon = new WPI_TalonSRX(Constants.DriveTrainPorts.RightDriveTalonPort);
+    leftDriveTalon = new WPI_TalonSRX(Constants.DrivePorts.LeftDriveTalonPort);
+    rightDriveTalon = new WPI_TalonSRX(Constants.DrivePorts.RightDriveTalonPort);
 
     // Sets default mode for talon objects
     leftDriveTalon.setNeutralMode(NeutralMode.Coast);

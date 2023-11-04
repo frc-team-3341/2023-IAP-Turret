@@ -28,8 +28,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double leftPowerRaw = joy.getRawAxis(Constants.DriveTrainPorts.LeftJoystickPort);
-    double rightPowerRaw = joy.getRawAxis(Constants.DriveTrainPorts.RightJoystickPort);
+    double leftPowerRaw = joy.getRawAxis(Constants.DrivePorts.LeftJoystickPort);
+    double rightPowerRaw = joy.getRawAxis(Constants.DrivePorts.RightJoystickPort);
     dt.tankDrive(leftPowerRaw*0.3, rightPowerRaw*0.3);
   }
 
