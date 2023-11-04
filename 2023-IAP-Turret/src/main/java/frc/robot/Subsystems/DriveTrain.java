@@ -7,6 +7,8 @@ package frc.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -15,6 +17,9 @@ public class DriveTrain extends SubsystemBase {
 
   private final WPI_TalonSRX leftDriveTalon;
   private final WPI_TalonSRX rightDriveTalon;
+
+  // navX object for angle
+  private AHRS navx = new AHRS(SPI.Port.kMXP);
 
   public DriveTrain() {
     // Creates talon objects
@@ -49,6 +54,11 @@ public class DriveTrain extends SubsystemBase {
   public void resetEncoders(){
     leftDriveTalon.setSelectedSensorPosition(0,0,10);
     rightDriveTalon.setSelectedSensorPosition(0,0,10);
+  }
+
+  public double getHeading(){
+    // Negative sign means the angle is measured counter clockwise from a reference point
+    return -navx.getRotation2d().getDegrees();
   }
 
   @Override
