@@ -22,7 +22,7 @@ public class PhotonVision extends SubsystemBase {
     public static double pitch;
     public static double area;
     public static double skew;
-    private PhotonVision() {
+    public PhotonVision() {
         photonCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
         PortForwarder.add(5800, "photonvision", 5800);
         photonCamera.setPipelineIndex(0);

@@ -5,13 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.PhotonDetection;
+import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Turret;
 
 public class RobotContainer {
   public Turret turret = new Turret();
-  public PhotonDetection photonDetection = new PhotonDetection(turret);
+  public PhotonVision photonVision = new PhotonVision();
+  public PhotonDetection photonDetection = new PhotonDetection(turret, photonVision);
   public RobotContainer() {
     configureBindings();
   }
