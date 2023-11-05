@@ -19,13 +19,11 @@ public class TankDrive extends CommandBase {
     addRequirements(dt);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     dt.tankDrive(0,0);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double leftPowerRaw = joy.getRawAxis(Constants.DrivePorts.LeftJoystickPort);
@@ -33,13 +31,11 @@ public class TankDrive extends CommandBase {
     dt.tankDrive(leftPowerRaw*0.3, rightPowerRaw*0.3);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     dt.tankDrive(0,0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

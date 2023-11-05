@@ -5,9 +5,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Commands.RIOCenterToTargetCone;
+import frc.robot.Subsystems.DriveTrain;
+import frc.robot.Subsystems.RoboRIOVision;
 
 public class RobotContainer {
+
+  private final DriveTrain dt = new DriveTrain();
+  private final RoboRIOVision RRVision = new RoboRIOVision();
+  private final RIOCenterToTargetCone RCTTC = new RIOCenterToTargetCone(dt, RRVision);
+
   public RobotContainer() {
     configureBindings();
   }
@@ -15,6 +22,6 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return RCTTC;
   }
 }
