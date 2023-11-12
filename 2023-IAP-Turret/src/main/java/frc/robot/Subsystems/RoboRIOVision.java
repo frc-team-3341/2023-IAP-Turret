@@ -6,6 +6,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Pipelines.ConeGripPipeline;
 import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RoboRIOVision extends SubsystemBase{
   // **TO BE DONE**: change these values according to our robot
@@ -26,6 +27,7 @@ public class RoboRIOVision extends SubsystemBase{
         Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
         synchronized (imgLock) {
         centerX = r.x + (r.width / 2);
+        SmartDashboard.putNumber("centerX", centerX);
         }
     }
     });
