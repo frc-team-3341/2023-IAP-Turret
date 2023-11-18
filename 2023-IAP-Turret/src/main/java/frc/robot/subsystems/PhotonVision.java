@@ -61,7 +61,6 @@ public class PhotonVision extends SubsystemBase {
         SmartDashboard.putNumber("Pitch", pitch);
         SmartDashboard.putNumber("Area", area);
         SmartDashboard.putNumber("Skew", skew);
-
     }
 }
 

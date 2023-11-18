@@ -20,12 +20,17 @@ public class PhotonDetection extends CommandBase {
 
     @Override
     public void initialize() {
-
+        //Initialize the turret position. Move until it hits a limit switch
+        while (turret.getLimitValue("r")){
+            turret.rotateTurret(-c.DefaultTurretSpeed);
+        }
+        //Reset encoder at limit switch position
+        turret.resetEncoders();
     }
 
     @Override
     public void execute() {
-       if (turret.getLimitValue()){
+       if (!turret.getLimitValue("r")){
            turretSpeed *= -1;
        }
        turret.rotateTurret(turretSpeed * c.DefaultTurretSpeed);
