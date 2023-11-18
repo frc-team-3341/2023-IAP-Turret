@@ -4,15 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.PhotonDetection;
+import frc.robot.commands.ProtoTurret;
 import frc.robot.subsystems.PhotonVision;
 import frc.robot.subsystems.Turret;
 
 public class RobotContainer {
   public Turret turret = new Turret();
+
   public PhotonVision photonVision = new PhotonVision();
-  public PhotonDetection photonDetection = new PhotonDetection(turret, photonVision);
+  public Joystick joy = new Joystick(Constants.USBOrder.Zero);
+  public ProtoTurret protoTurret = new ProtoTurret(turret, photonVision, joy);
   public RobotContainer() {
     configureBindings();
   }
@@ -20,6 +23,6 @@ public class RobotContainer {
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    return photonDetection;
+    return protoTurret;
   }
 }

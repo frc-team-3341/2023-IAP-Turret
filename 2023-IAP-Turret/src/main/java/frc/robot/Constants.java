@@ -9,5 +9,9 @@ public class Constants {
     public final double gearRatio = 5.75f;
 
     public final int smallWheelDiameter = 1;
+    public static final class USBOrder {
+        public static final int Zero = 0;
+        public static final int One = 1;
+    }
 
 }
