@@ -3,6 +3,7 @@ import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Pipelines.ConeGripPipeline;
 import edu.wpi.first.vision.VisionThread;
@@ -32,6 +33,10 @@ public class RoboRIOVision extends SubsystemBase{
     }
     });
     visionThread.start();
+
+    // PortForwarder.add(8888, "wpilibpi.local", 80);
+    PortForwarder.add(8888, "frcvision.local", 80);
+
   }
 
   public Object getImgLock(){

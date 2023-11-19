@@ -24,7 +24,7 @@ public class RIOCenterToTargetCone extends CommandBase {
     double centerX;
     // The synchronized block gets a snapshot of the last reading of centerX in the vision thread
     synchronized (roboRIOVision.getImgLock()) {
-        centerX = this.roboRIOVision.getCenterX();
+      centerX = this.roboRIOVision.getCenterX();
     }
     // As the robot gets closer to the centerX, the turn var gets smaller and goes to 0
     double turn = centerX - (roboRIOVision.getCenterX() / 2);
