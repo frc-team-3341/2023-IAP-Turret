@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.PhotonVision;
@@ -18,11 +18,11 @@ public class ProtoTurret extends CommandBase {
     public int threshold = 10;
     //start slowing down turret 10 degrees from limit switch
     public boolean manualControl = true;
-    public Joystick joy;
+    public XboxController controller;
     PIDController pid = new PIDController(0,0,0);
 
-    public ProtoTurret(Turret turret, PhotonVision photonVision, Joystick joy) {
-        this.joy = joy;
+    public ProtoTurret(Turret turret, PhotonVision photonVision, XboxController controller) {
+        this.controller = controller;
         this.turret = turret;
         this.photonVision = photonVision;
         addRequirements();
@@ -40,7 +40,7 @@ public class ProtoTurret extends CommandBase {
 
     @Override
     public void execute() {
-        if (joy.getRawButtonReleased(2)){
+        if (controller.getAButtonReleased()){
             manualControl = false;
         }else{
             manualControl = true;
@@ -68,7 +68,7 @@ public class ProtoTurret extends CommandBase {
                 turretSign *= -1;
             }
         } else {
-            double axis = joy.getRawAxis(0);
+            double axis = controller.getRawAxis(0);
             turret.rotateTurret(axis*1.15);
         }
     }
