@@ -17,7 +17,7 @@ public class ProtoTurret extends CommandBase {
     //0.2 is the max speed
     public int threshold = 10;
     //start slowing down turret 10 degrees from limit switch
-    public boolean manualControl;
+    public boolean manualControl = true;
     public Joystick joy;
     PIDController pid = new PIDController(0,0,0);
 
@@ -30,12 +30,12 @@ public class ProtoTurret extends CommandBase {
 
     @Override
     public void initialize() {
-        while (!turret.getLimitValue("l")){
-            turret.rotateTurret(-0.2);
-        }
-        turret.resetEncoders();
-        pid.setSetpoint(0.0);
-        turret.setAngle(22.5);
+//        while (!turret.getLimitValue("l")){
+//            turret.rotateTurret(-0.2);
+//        }
+//        turret.resetEncoders();
+//        pid.setSetpoint(0.0);
+//        turret.setAngle(22.5);
     }
 
     @Override
