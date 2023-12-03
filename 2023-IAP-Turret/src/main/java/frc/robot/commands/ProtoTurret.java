@@ -30,19 +30,22 @@ public class ProtoTurret extends CommandBase {
 
     @Override
     public void initialize() {
-        turret.resetEncoders();
+        while (turret.getLimitValue("l")){
+            turret.rotateTurret(0.3);
+        }
         turret.rotateTurret(0);
-//        while (!turret.getLimitValue("l")){
+        //rotate positive to left, negative to right
 
-//        }
-//        turret.resetEncoders();
+        turret.resetEncoders();
+
 //        pid.setSetpoint(0.0);
-//        turret.setAngle(22.5);
+        while (turret.getTicks()*4 < 90){
+            turret.rotateTurret(-0.2);
+        }
     }
 
     @Override
     public void execute() {
-        turret.rotateTurret(0.1);
 
 //        if (controller.getAButtonReleased()){
 //            manualControl = false;
@@ -52,7 +55,7 @@ public class ProtoTurret extends CommandBase {
 //
 //        if (!manualControl) {
 //            while (true) { //All code should run while the target has not yet been found
-//                while (!turret.getLimitValue("r") && !turret.getLimitValue("l")) {
+//                while (turret.getLimitValue("r") && turret.getLimitValue("l")) {
 //                    int setPoint = 0;
 //                    if (turretSign == 1){
 //                        setPoint = 180;
@@ -64,9 +67,9 @@ public class ProtoTurret extends CommandBase {
 //
 //                    double angle = turret.getTicks() * 4;
 //                    if ((0 <= angle && angle <= threshold) || (180 - threshold <= angle && angle <= 180)) {
-//                        turretSpeed = 0.05;
+//                        turretSpeed = 0.1;
 //                    } else {
-//                        turretSpeed = 0.2;
+//                        turretSpeed = 0.3;
 //                    }
 //                }
 //                turretSign *= -1;
