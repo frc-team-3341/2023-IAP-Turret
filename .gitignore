@@ -38,3 +38,8 @@ Thumbs.db
 
 # directory for XML generated after running junit tests through ant
 junit/
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build

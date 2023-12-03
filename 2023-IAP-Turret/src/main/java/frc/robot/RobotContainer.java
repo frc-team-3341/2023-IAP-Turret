@@ -18,6 +18,7 @@ public class RobotContainer {
   public XboxController controller = new XboxController(Constants.USBOrder.Zero);
   public ProtoTurret protoTurret = new ProtoTurret(turret, photonVision, controller);
   public RobotContainer() {
+    turret.setDefaultCommand(protoTurret);
     configureBindings();
   }
 

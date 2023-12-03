@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.CounterBase;
@@ -15,9 +18,6 @@ import org.opencv.core.Mat;
 import java.util.Objects;
 
 public class Turret extends SubsystemBase {
-
-    public DigitalInput LeftLimitSwitch;
-    public DigitalInput RightLimitSwitch;
     public Constants c = new Constants();
     public final WPI_TalonSRX talon;
     //https://docs.wpilib.org/en/stable/docs/software/hardware-apis/sensors/encoders-software.html
@@ -33,9 +33,10 @@ public class Turret extends SubsystemBase {
         talon.setNeutralMode(NeutralMode.Coast);
 
 
-        LeftLimitSwitch = new DigitalInput(c.LimitSwitchChannel_L);
-        RightLimitSwitch = new DigitalInput(c.LimitSwitchChannel_R);
-
+        talon.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 4);
+        talon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed, 4);
+        talon.configForwardSoftLimitEnable(false);
+        talon.configReverseSoftLimitEnable(false);
     }
 
     public void rotateTurret(double talonSpeed){
@@ -66,9 +67,9 @@ public class Turret extends SubsystemBase {
     public boolean getLimitValue(String limitSwitch){
         //Accept "r" or "l"
         if (Objects.equals(limitSwitch, "r")){
-            return RightLimitSwitch.get();
+            return talon.isRevLimitSwitchClosed() == 1;
         }else if (Objects.equals(limitSwitch, "l")){
-            return LeftLimitSwitch.get();
+            return talon.isFwdLimitSwitchClosed() == 1;
         }
         return false;
     }
