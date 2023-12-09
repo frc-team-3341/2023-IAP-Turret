@@ -25,7 +25,7 @@ public class ProtoTurret extends CommandBase {
         this.controller = controller;
         this.turret = turret;
         this.photonVision = photonVision;
-        addRequirements(this.turret);
+        addRequirements(this.turret, this.photonVision);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ProtoTurret extends CommandBase {
 
         if (!manualControl) {
             while (!photonVision.targetExists()) { //All code should run while the target has not yet been found
-                while (turret.getLimitValue("r") && turret.getLimitValue("l")) {
+                while (!turret.getLimitValue("r") && !turret.getLimitValue("l")) {
                     int setPoint = 0;
                     if (turretSign == 1){ //one is positive --> 180 should make it go to the right while the negative value should make it go to the left
                         setPoint = 180;
