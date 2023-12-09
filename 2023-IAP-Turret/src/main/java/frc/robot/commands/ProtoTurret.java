@@ -75,6 +75,10 @@ public class ProtoTurret extends CommandBase {
                 }
                 turretSign *= -1;
             }
+            while(photonVision.targetExists()){
+                double speed = pid.calculate(photonVision.getYaw());
+                turret.rotateTurret(-speed);
+            }
         } else {
             double axis = controller.getRawAxis(0);
             turret.rotateTurret(axis*1.15);
