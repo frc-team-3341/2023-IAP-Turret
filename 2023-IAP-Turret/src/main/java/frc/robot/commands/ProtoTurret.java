@@ -30,54 +30,54 @@ public class ProtoTurret extends CommandBase {
 
     @Override
     public void initialize() {
-        while (turret.getLimitValue("l")){
-            turret.rotateTurret(0.3);
-        }
-        turret.rotateTurret(0);
-        //rotate positive to left, negative to right
-
-        turret.resetEncoders();
-
-//        pid.setSetpoint(0.0);
-        while (turret.getTicks()*4 < 90){
-            turret.rotateTurret(-0.2);
-        }
+//        while (turret.getLimitValue("l")){
+//            turret.rotateTurret(0.3);
+//        }
+//        turret.rotateTurret(0);
+//        //rotate positive to left, negative to right
+//
+//        turret.resetEncoders();
+//
+////        pid.setSetpoint(0.0);
+//        while (turret.getTicks()*4 < 90){
+//            turret.rotateTurret(-0.2);
+//        }
     }
 
     @Override
     public void execute() {
 
-//        if (controller.getAButtonReleased()){
-//            manualControl = false;
-//        }else{
-//            manualControl = true;
-//        }
-//
-//        if (!manualControl) {
-//            while (true) { //All code should run while the target has not yet been found
-//                while (turret.getLimitValue("r") && turret.getLimitValue("l")) {
-//                    int setPoint = 0;
-//                    if (turretSign == 1){
-//                        setPoint = 180;
-//                    }
-//                    double calc = pid.calculate(turret.getCenterEncoderDistance(), setPoint);
-//                    //turretSpeed * turretSign
-//                    turret.rotateTurret(calc);
-//
-//
-//                    double angle = turret.getTicks() * 4;
-//                    if ((0 <= angle && angle <= threshold) || (180 - threshold <= angle && angle <= 180)) {
-//                        turretSpeed = 0.1;
-//                    } else {
-//                        turretSpeed = 0.3;
-//                    }
-//                }
-//                turretSign *= -1;
-//            }
-//        } else {
-//            double axis = controller.getRawAxis(0);
-//            turret.rotateTurret(axis*1.15);
-//        }
+        if (controller.getAButtonReleased()){
+            manualControl = false;
+        }else{
+            manualControl = true;
+        }
+
+        if (!manualControl) {
+            while (!photonVision.targetExists()) { //All code should run while the target has not yet been found
+                while (turret.getLimitValue("r") && turret.getLimitValue("l")) {
+                    int setPoint = 0;
+                    if (turretSign == 1){
+                        setPoint = 180;
+                    }
+                    double calc = pid.calculate(turret.getCenterEncoderDistance(), setPoint);
+                    //turretSpeed * turretSign
+                    turret.rotateTurret(calc);
+
+
+                    double angle = turret.getTicks() * 4;
+                    if ((0 <= angle && angle <= threshold) || (180 - threshold <= angle && angle <= 180)) {
+                        turretSpeed = 0.1;
+                    } else {
+                        turretSpeed = 0.3;
+                    }
+                }
+                turretSign *= -1;
+            }
+        } else {
+            double axis = controller.getRawAxis(0);
+            turret.rotateTurret(axis*1.15);
+        }
     }
 
     @Override
