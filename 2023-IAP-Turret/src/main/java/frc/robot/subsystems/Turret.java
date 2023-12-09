@@ -67,9 +67,9 @@ public class Turret extends SubsystemBase {
     public boolean getLimitValue(String limitSwitch){
         //Accept "r" or "l"
         if (Objects.equals(limitSwitch, "r")){
-            return talon.isRevLimitSwitchClosed() == 0;
+            return talon.isRevLimitSwitchClosed() == 1;
         }else if (Objects.equals(limitSwitch, "l")){
-            return talon.isFwdLimitSwitchClosed() == 0;
+            return talon.isFwdLimitSwitchClosed() == 1;
         }
         return false;
     }

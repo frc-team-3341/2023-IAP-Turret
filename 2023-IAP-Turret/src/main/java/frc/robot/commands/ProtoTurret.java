@@ -57,9 +57,10 @@ public class ProtoTurret extends CommandBase {
             while (!photonVision.targetExists()) { //All code should run while the target has not yet been found
                 while (turret.getLimitValue("r") && turret.getLimitValue("l")) {
                     int setPoint = 0;
-                    if (turretSign == 1){
+                    if (turretSign == 1){ //one is positive --> 180 should make it go to the right while the negative value should make it go to the left
                         setPoint = 180;
                     }
+
                     double calc = pid.calculate(turret.getCenterEncoderDistance(), setPoint);
                     //turretSpeed * turretSign
                     turret.rotateTurret(calc);
