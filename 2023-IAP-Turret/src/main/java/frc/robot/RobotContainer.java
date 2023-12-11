@@ -4,17 +4,27 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.commands.ProtoTurret;
+import frc.robot.subsystems.PhotonVision;
+import frc.robot.subsystems.Turret;
 
 public class RobotContainer {
+  public Turret turret = new Turret();
+
+  public PhotonVision photonVision = new PhotonVision();
+  public XboxController controller = new XboxController(Constants.USBOrder.Zero);
+  public ProtoTurret protoTurret = new ProtoTurret(turret, photonVision, controller);
   public RobotContainer() {
+    turret.setDefaultCommand(protoTurret);
     configureBindings();
   }
 
   private void configureBindings() {}
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return protoTurret;
   }
 }
